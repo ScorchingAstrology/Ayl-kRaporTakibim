@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta data-own charset="utf-8">
+<meta data-own name="viewport" content="width=device-width,initial-scale=1">
+<title data-own>Aylık Rapor Takibi</title>
+<link data-own rel="preconnect" href="https://fonts.googleapis.com">
+<link data-own rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link data-own href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style data-own>
+/* VOICE: kurumsal, sade, güven veren — Emay Yönetim Sistemi (EYS) ile aynı aile.
+   IDEA: EYS giriş ekranı: gece laciverti üst bant + beyaz kurumsal kart.
+   PICTURE: lacivert bantta açık ayların cam kartları; altta beyaz "sıradaki adım" kartı ve ince ilerleme çubuğu.
+   COLOUR/TYPE: lacivert #0d1828, EYS kırmızısı #dc2f2f, açık gri zemin #f3f5f8; Outfit başlık + Inter metin.
+   LAYOUT: koyu üst bant (başlık + ay kartları), açık gövde (kart, ilerleme, adımlar, notlar). */
+:root{color-scheme:light dark;
+--bg:light-dark(#f3f5f8,#0a1320);--card:light-dark(#ffffff,#111d2e);--ink:light-dark(#111a2b,#e8edf4);--mute:light-dark(#5d6878,#93a0b3);
+--rule:light-dark(#e2e7ee,#22314a);--soft:light-dark(#eef2f7,#17253a);--navy:light-dark(#1a2a44,#c9d4e5);--red:#dc2f2f;--redt:light-dark(#d32a2a,#ff6b63);
+--field:light-dark(#eaf1fb,#16243a);--fieldb:light-dark(#cfdae8,#2a3c58);--warn:light-dark(#c0392b,#ff8a7a);--ok:light-dark(#1f8a4c,#4cc985);
+--shadow:0 1px 2px rgba(13,24,40,.06),0 12px 32px rgba(13,24,40,.08)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Outfit,Inter,sans-serif;font-weight:700;line-height:1.1;margin:0;text-wrap:balance;letter-spacing:-.01em}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 max(4vw,16px)}
+header{color:#fff;padding:34px 0 30px;background:radial-gradient(900px 380px at 78% 10%,rgba(92,124,178,.28),transparent 70%),radial-gradient(600px 300px at 10% 100%,rgba(220,47,47,.10),transparent 70%),linear-gradient(160deg,#0b1524 0%,#13223a 60%,#0d1828 100%)}
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:end;justify-content:space-between}
+.ttl{border-left:3px solid var(--red);padding-left:18px}
+.eb{font-size:12px;font-weight:600;letter-spacing:.22em;color:#aab6c8;margin-bottom:10px}
+h1{font-size:clamp(30px,5vw,46px)}h1 em{font-style:normal;color:#ff3b35}
+.lead{color:#c3ccd9;margin:10px 0 0;max-width:52ch}
+#sync{font-size:13px;color:#aab6c8;display:flex;align-items:center;gap:6px}
+#sync::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ok)}
+#sync.busy::before{background:#ffb020}#sync.bad::before{background:#ff6b63}
+.lbl{font-size:12px;font-weight:600;letter-spacing:.18em;color:#93a0b3;margin:30px 0 12px}
+.months{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:12px}
+.mc{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:16px 18px;text-align:left;background:rgba(255,255,255,.05);color:#fff;display:grid;gap:9px;min-height:44px;backdrop-filter:blur(4px)}
+.mc:hover{background:rgba(255,255,255,.08)}
+.mc.on{border-color:var(--red);box-shadow:inset 0 0 0 1px var(--red);background:rgba(255,255,255,.08)}
+.mc h3{font-size:22px;font-weight:600}
+.mc .nx{font-size:14px;line-height:1.4;color:#d5dce7}.mc .nx b{font-weight:600;color:#fff}
+.bar{height:4px;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--red)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13px;color:#a7b3c5;align-items:center}
+.mc .tag{background:rgba(255,255,255,.1);color:#fff}
+.late{color:#ff7b72;font-weight:600}
+.add{border-style:dashed;place-content:center;text-align:center;color:#fff;font-weight:600;background:transparent}
+.add span{color:#ff3b35}
+.arch{display:flex;flex-wrap:wrap;gap:8px}
+.arch button{border:1px solid rgba(255,255,255,.18);background:transparent;color:#d5dce7;border-radius:99px;padding:8px 14px;min-height:40px;font-size:14px}
+.arch button.on{border-color:var(--red);color:#fff}
+.now{margin-top:-1px;margin-top:28px;background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:clamp(22px,3.5vw,36px);display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:28px}
+.now .k{font-size:13px;color:var(--mute)}
+.now h2{font-size:clamp(26px,4vw,38px);margin:10px 0 10px;color:var(--ink)}
+.now .hint{color:var(--mute);margin:0 0 16px}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--soft);color:var(--navy);white-space:nowrap}
+.go{background:var(--red);color:#fff;border:0;border-radius:8px;padding:13px 24px;font-weight:600;min-height:50px;display:inline-flex;gap:10px;align-items:center;box-shadow:0 6px 18px rgba(220,47,47,.25)}
+.go:hover{background:#c92626}
+.side{border-left:1px solid var(--rule);padding-left:28px;display:grid;gap:18px;align-content:start}
+.side label{font-size:14px;font-weight:500;display:block;margin-bottom:6px}
+.side input{font:16px Inter,sans-serif;padding:10px 12px;border-radius:8px;border:1px solid var(--fieldb);background:var(--field);color:var(--ink);width:100%;max-width:240px;min-height:46px}
+.big{font-family:Outfit,Inter,sans-serif;font-weight:700;font-size:36px;line-height:1}
+.bigs{font-size:13px;color:var(--mute)}
+.done-panel h2{margin-bottom:4px}
+.card{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:clamp(18px,3vw,28px);margin-top:20px}
+.phase{margin-top:20px}
+.ph{display:flex;justify-content:space-between;gap:12px;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:10px}
+.ph h3{font-size:20px;font-weight:600}.ph span{font-size:13px;color:var(--mute)}
+.row{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid var(--rule)}
+.row.cur{background:var(--soft);margin:0 -12px;padding:10px 12px;border-radius:10px;border-bottom-color:transparent;box-shadow:inset 3px 0 0 var(--red)}
+.ck{width:40px;height:40px;border-radius:8px;border:1.5px solid var(--fieldb);background:var(--card);display:grid;place-items:center;padding:0}
+.ck svg{width:20px;height:20px;opacity:0}
+.row.d .ck{background:var(--navy);border-color:var(--navy)}.row.d .ck svg{opacity:1}
+:root .row.d .ck svg path{stroke:var(--card)}
+.row.d .t{color:var(--mute);text-decoration:line-through;text-decoration-color:var(--fieldb)}
+.t{font-weight:500}.t small{display:block;font-weight:400;color:var(--mute);font-size:13px}
+.r{display:flex;flex-direction:column;align-items:end;gap:4px;font-size:13px;color:var(--mute);text-align:right}
+.upto{border:0;background:none;color:var(--redt);font-size:13px;padding:6px 0}
+.upto:hover{text-decoration:underline}
+.ms{font-size:13px;font-weight:600;color:var(--ok);padding:8px 0 0 54px}
+.wait{color:var(--warn);font-weight:600}
+textarea{width:100%;min-height:110px;font:16px/1.5 Inter,sans-serif;padding:12px;border:1px solid var(--fieldb);border-radius:8px;background:var(--field);color:var(--ink);resize:vertical}
+.foot{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin:22px 0 48px}
+.ghost{border:1px solid var(--fieldb);background:var(--card);border-radius:8px;padding:10px 16px;min-height:44px}
+.ghost.danger{color:var(--warn);border-color:var(--warn);background:transparent}
+.pgh{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:14px}
+.pgh h3{font-size:20px;font-weight:600}.pgh span{font-size:14px;color:var(--mute);white-space:nowrap}.pgh b{color:var(--ink);font-weight:600}
+.trk{display:flex;gap:4px;height:10px}
+.seg{background:var(--soft);border-radius:5px;overflow:hidden;display:block}
+.seg i{display:block;height:100%;background:var(--red);border-radius:5px}.seg i.ok{background:var(--ok)}
+.lgd{display:flex;gap:4px;margin-top:8px}
+.lg{border:0;background:none;text-align:left;padding:6px 0 0;min-height:44px;display:flex;flex-direction:column;gap:1px;border-top:2px solid transparent}
+.lg.on{border-top-color:var(--red)}
+.lgt{font-size:14px;font-weight:600}.lg:not(.on) .lgt{color:var(--mute);font-weight:500}
+.lgn{font-size:13px;color:var(--mute)}
+@media(max-width:600px){.lg{flex:1 1 0!important}.lgt{font-size:13px}}
+@media(prefers-reduced-motion:no-preference){.seg i,.bar i{transition:width .4s ease}.ck{transition:background .15s}}
+.congrats{background:var(--ok);color:#fff;text-align:center;font-weight:500;padding:14px 16px;font-size:16px}
+.congrats b{font-family:Outfit,Inter,sans-serif;font-weight:700;font-size:19px;margin-right:6px}
+.sg{font-size:12px;font-weight:600;letter-spacing:.14em;color:var(--mute);padding:20px 0 6px;border-bottom:1px solid var(--rule)}
+.ay{display:block;font-size:12px;font-weight:600;color:var(--redt);line-height:1.3}
+.row.d .ay{color:var(--mute)}
+.grp{font-weight:600;font-size:15px;padding:14px 0 6px;display:flex;gap:10px;align-items:baseline;border-bottom:1px solid var(--rule)}
+.grp span{font-weight:400;font-size:13px;color:var(--mute)}
+.row.sub{padding-left:28px}.row.sub.cur{padding-left:40px}
+@media(max-width:600px){.row.sub{padding-left:14px}.row.sub.cur{padding-left:26px}}
+.msg{margin:10px 0 4px;display:grid;gap:8px}
+.msg textarea{min-height:0;font-size:15px;font-weight:400}
+.msg.dk{margin:0 0 18px}
+.mrow{display:flex;flex-wrap:wrap;gap:8px}.mrow .ghost{font-size:14px;font-weight:600;text-decoration:none;color:var(--navy);display:inline-flex;align-items:center}
+.fol{margin:4px 0 18px;padding:14px 16px;border:1px solid var(--fieldb);border-left:3px solid var(--red);border-radius:10px;background:var(--card)}
+.folh{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;margin-bottom:8px}.folh b{font-weight:600}.folh span{font-size:13px;color:var(--warn)}
+.wa{background:#1f9d55;color:#fff;border-radius:8px;padding:10px 16px;min-height:44px;font-weight:600;font-size:14px;text-decoration:none;display:inline-flex;align-items:center}
+.wa:hover{background:#188a49}
+.num{font-size:14px;color:var(--mute);align-self:center}
+.lnk{border:0;background:none;color:var(--redt);font-size:13px;padding:6px 2px;align-self:center;text-decoration:none}
+.lnk:hover{text-decoration:underline}
+.fol input{font:16px Inter,sans-serif;padding:9px 12px;border-radius:8px;border:1px solid var(--fieldb);background:var(--field);color:var(--ink);min-height:44px;flex:1 1 220px}
+.dl{background:rgba(255,123,114,.16);color:#ffb3ad;font-weight:600;padding:2px 9px;border-radius:99px}
+.row{position:relative}
+.row::before{content:"";position:absolute;left:19px;top:0;bottom:0;width:2px;background:var(--rule);z-index:0}
+.row.d::before{background:var(--navy)}
+.row.cur::before{left:31px;background:linear-gradient(var(--navy) 50%,var(--rule) 50%)}
+.row.sub::before{left:47px}.row.sub.cur::before{left:59px}
+.ck{position:relative;z-index:1}
+.ck:disabled{cursor:not-allowed}
+.row.d .ck:disabled{opacity:.85}
+.row.lock .t,.row.lock .r .tag{opacity:.5}
+.row.lock .ck{background:var(--soft);border-style:dashed;color:var(--mute)}
+.ck svg.lk{opacity:.7;width:16px;height:16px}
+@media(max-width:600px){.row.sub::before{left:33px}.row.sub.cur::before{left:45px}}
+@media(prefers-reduced-motion:no-preference){.row.cur{animation:op .35s ease}@keyframes op{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}}
+.card.prog{position:sticky;top:0;z-index:20;padding-block:16px 6px;box-shadow:0 1px 2px rgba(13,24,40,.08),0 10px 28px rgba(13,24,40,.14)}
+html{scroll-padding-top:190px}
+@media(max-width:600px){.card.prog .pgh h3{font-size:17px}.card.prog{padding-inline:16px}}
+.note-s{font-size:13px;color:var(--mute);margin:6px 0 0}
+@media(max-width:600px){.row{grid-template-columns:40px minmax(0,1fr);row-gap:2px}.r{grid-column:2;flex-direction:row;align-items:center;gap:10px;text-align:left}.r:empty{display:none}}
+.add{display:flex;align-items:center;justify-content:center;gap:6px;min-height:120px}
+@media(max-width:700px){.now{grid-template-columns:1fr}.side{border-left:0;border-top:1px solid var(--rule);padding:18px 0 0}.r .pl{display:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script data-own type="application/json" id="state">{"v":1,"updatedAt":1795533887211,"months":[{"id":"2026-10","due":"2026-11-06","done":{"s0":"2026-11-24","s1":"2026-11-24","s2":"2026-11-24","s3a":"2026-11-24","s3b":"2026-11-24","s4":"2026-11-24","s5":"2026-11-24","s6":"2026-11-24","s7a":"2026-11-24","s7b":"2026-11-24","s7c":"2026-11-24"},"note":""},{"id":"2026-11","due":"2026-12-04","done":{},"note":""}]}</script>
+<script data-own id="appjs">
+{
+const AY=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+const AYK=['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+const GUN=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
+const PLACE={gd:'Google Drive',wp:'WhatsApp',mail:'Mail',masa:'Masa başı',dij:'Dijital',mf:'M-Files',sek:'Sekreter',asma:'Asma kat',k9:'9. kat'};
+const GROUPS=['Taslak, mail ve toplama','Raporu hazırla ve ilet','Teslim turu','Görüş, düzeltme ve son teslim'];
+const PHASES=[
+ {t:'İlk sunum',w:'Taslaktan imzalı yazının sekretere teslimine kadar'},
+ {t:'Görüş alma',w:'İnceleme, düzeltme ve son teslim'}];
+const S=[
+ ['s0',0,'{ay} Aylık Rapor Taslağını Oluştur','gd','Google Drive’da, mail atmadan önce'],
+ ['s1',0,'Rapor yazarlarına mail at, son tarihi bildir','mail','Ayın son haftasında'],
+ ['s2',0,'Yazarlar raporu tamamladı','masa','',1],
+ ['s3a',1,'Yatırım Yönetimi başlığına metin ekle','masa','Kendi bölümüm (1/2)'],
+ ['s3b',1,'İletişim Hizmetleri metnini düzenle','masa','Kendi bölümüm (2/2)'],
+ ['s4',1,'Raporu dijital olarak hazırla','dij'],
+ ['s5',1,'Taslak üst yazıyı al','masa'],
+ ['s6',1,'Dijital raporu WhatsApp “Aylık Rapor” grubuna gönder','wp','Hazır mesajı kopyala, dosyayla birlikte gönder'],
+ ['s8',1,'Sosyal medya raporunun bölümlerini tamamla','masa','En az yarım gün ayır'],
+ ['s7a',1,'{ay} Aylık Rapor konteynırına yükle','mf','',0,'',1],
+ ['s7b',1,'{ay} İletişim Rapor konteynırına yükle','mf','',0,'',1],
+ ['s7c',1,'{ay} raporlarını yazıya iliştir','mf','',0,'',1],
+ ['s9',1,'Sosyal medya raporunun çıktısını al','masa','Rapor uzantısı (hard copy)'],
+ ['s10',1,'Ekleri USB’ye yükle','masa'],
+ ['s11',1,'Üst yazıyı M-Files’ta hazırla','mf'],
+ ['s12',1,'Sekreterden yazı numarasını al','sek'],
+ ['s13',2,'Uzantıyı (hard copy) asma kat bürosuna teslim et','asma','“Görüldü” imzası için · Dilek Özden'],
+ ['s14',2,'Üst yazı + dijital rapor (USB) 9. kat bürosuna teslim et','k9'],
+ ['s15',2,'Üst yazıyı imzalat','k9'],
+ ['s16',2,'Yazı, yazı işlerine gönderildi','k9','',1],
+ ['s17',2,'Yazının ikinci kopyasını sekreter hanıma teslim et','sek','',0,'Faz 1 tamamlandı: ilk sunum yapıldı'],
+ ['s18',3,'9. katta dijital rapor incelendi','k9','',1],
+ ['s19',3,'Dilek Özden’den “görüldü” imzalı uzantıyı geri al','asma','Asma kat',1],
+ ['s20',3,'İmzalı uzantıyı 9. kat bürosuna teslim et','k9'],
+ ['s21',3,'9. kattan görüş ve düzeltmeleri al','k9','',1],
+ ['s22',3,'Düzeltmeleri işle, dijital raporun çıktısını al','masa'],
+ ['s23',3,'Düzeltilmiş çıktıyı teslim et','k9','',0,'Ayın raporu tamamlandı']
+].map(a=>({id:a[0],ph:a[1]<3?0:1,g:a[1],t:a[2],p:a[3],h:a[4]||'',w:!!a[5],ms:a[6]||'',sub:!!a[7]}));
+const SUBS=S.filter(s=>s.sub);
+const tt=(s,m)=>s.t.replace('{ay}',label(m.id));
+const KEY='rapor-takip-v1';
+const app=document.getElementById('app');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const pd=s=>{const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const fmt=s=>{if(!s)return'';const d=pd(s);return GUN[d.getDay()]+' '+d.getDate()+' '+AYK[d.getMonth()]};
+const label=id=>{const[y,m]=id.split('-').map(Number);return AY[m-1]+' '+y};
+const nextId=id=>{let[y,m]=id.split('-').map(Number);m++;if(m>12){m=1;y++}return y+'-'+pad(m)};
+const defDue=id=>{const[y,m]=nextId(id).split('-').map(Number);const d=new Date(y,m-1,1);while(d.getDay()!==5)d.setDate(d.getDate()+1);return iso(d)};
+const today=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
+const left=s=>Math.round((pd(s)-today())/864e5);
+const nxt=m=>S.find(s=>!m.done[s.id]);
+const dNum=()=>(state.contacts&&state.contacts.dilek)||'';
+const waNum=r=>{let d=String(r||'').replace(/\D/g,'');if(d.startsWith('0'))d='9'+d;else if(d.length===10&&d[0]==='5')d='90'+d;return d};
+const waitDilek=m=>!!(m.done.s13&&!m.done.s19);
+const sinceDays=s=>s?Math.max(0,Math.round((today()-pd(s))/864e5)):0;
+const dMsg=m=>`Merhaba Dilek Hanım, ${label(m.id)} aylık raporunun uzantısını “görüldü” imzası için bırakmıştım. İmzalandıysa almaya gelebilir miyim? İyi çalışmalar.`;
+function follow(m){const num=waNum(dNum());const dd=sinceDays(m.done.s13);const txt=encodeURIComponent(dMsg(m));
+ const act=num&&!editNum?`<a class="wa" href="https://wa.me/${num}?text=${txt}" target="_blank" rel="noopener">WhatsApp’tan yaz</a><a class="ghost" href="tel:+${num}">Ara</a><span class="num">+${esc(num)}</span><button class="lnk" data-act="editnum">Numarayı değiştir</button>`
+  :`<input id="dnum" type="tel" inputmode="tel" placeholder="Dilek Hanım’ın numarası (05xx…)" value="${esc(dNum())}"><button class="ghost" data-act="savenum">Kaydet</button><a class="lnk" href="https://wa.me/?text=${txt}" target="_blank" rel="noopener">Numarasız WhatsApp’ta aç</a>`;
+ return `<div class="fol msg"><div class="folh"><b>Dilek Özden’i takip et</b><span>Asma kat · “görüldü” imzası ${dd?dd+' gündür':'bugünden beri'} bekleniyor</span></div>
+ <textarea readonly rows="3" aria-label="Dilek Özden’e hazır mesaj">${esc(dMsg(m))}</textarea>
+ <div class="mrow">${act}<button class="ghost" data-act="copy">Mesajı kopyala</button></div></div>`}
+const waMsg=m=>`Günaydın, ${label(m.id)} Aylık Raporumuzu tamamladık, görüşlerinize sunmak için buradan iletiyorum. Sunuş yazısını da gün içinde getireceğim. İyi çalışmalar 🙏`;
+const msgBox=(m,dark)=>`<div class="msg ${dark?'dk':''}"><textarea readonly rows="3" aria-label="Hazır WhatsApp mesajı">${esc(waMsg(m))}</textarea>
+ <div class="mrow"><button class="ghost" data-act="copy">Mesajı kopyala</button><a class="ghost" href="https://wa.me/?text=${encodeURIComponent(waMsg(m))}" target="_blank" rel="noopener">WhatsApp’ta aç</a></div></div>`;
+const cnt=m=>S.filter(s=>m.done[s.id]).length;
+const lastWeek=id=>{const[y,m]=id.split('-').map(Number);const L=new Date(y,m,0).getDate();return (L-6)+'–'+L+' '+AYK[m-1]};
+let state;try{state=JSON.parse(document.getElementById('state').textContent)}catch(e){state={v:1,updatedAt:0,months:[]}}
+const migrate=()=>state.months.forEach(m=>{if(m.done&&m.done.s3){m.done.s3a=m.done.s3a||m.done.s3;m.done.s3b=m.done.s3b||m.done.s3;delete m.done.s3}if(m.done&&m.done.s7){SUBS.forEach(s=>{m.done[s.id]=m.done[s.id]||m.done.s7});delete m.done.s7}});
+migrate();
+let art=null,timer=null,confirmDel=null,curPh=null,editNum=false;
+let cur=null;try{cur=localStorage.getItem(KEY+'-cur')}catch(e){}
+const open=()=>state.months.filter(m=>nxt(m));
+const closed=()=>state.months.filter(m=>!nxt(m));
+function pickCur(){if(!state.months.find(m=>m.id===cur))cur=(open()[0]||state.months[state.months.length-1]||{}).id||null}
+function dueBit(m){if(!m.due||!nxt(m))return'';const n=left(m.due);
+ const t=n>0?n+' gün kaldı':n===0?'bugün':Math.abs(n)+' gün geçti';
+ return `<span class="${n<0&&!m.done.s12?'late':''}">Son tarih ${esc(fmt(m.due))} · ${t}</span>`}
+function card(m){const n=nxt(m),c=cnt(m);
+ return `<button class="mc ${m.id===cur?'on':''}" data-act="sel" data-id="${esc(m.id)}">
+ <h3>${esc(label(m.id))}</h3><div class="bar"><i style="width:${Math.round(c/S.length*100)}%"></i></div>
+ <div class="nx">${n?`Sıradaki: <b>${esc(tt(n,m))}</b>`:'Tamamlandı'}</div>
+ <div class="meta"><span>${c}/${S.length} adım</span>${n?`<span class="tag">${esc(PLACE[n.p])}</span>`:''}${dueBit(m)}${waitDilek(m)?'<span class="dl">Dilek Hanım bekleniyor</span>':''}</div></button>`}
+const LK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lk"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+const stepState=(m,s)=>{const i=S.indexOf(s);const f=S.findIndex(x=>!m.done[x.id]);const first=f<0?S.length:f;const d=!!m.done[s.id];
+ return {locked:!d&&i>first,undo:d&&(i===S.length-1||!m.done[S[i+1].id])}};
+const CK='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+function nowPanel(m){const n=nxt(m),c=cnt(m);
+ const side=`<div class="side"><div><label for="due">Raporun son tarihi</label><input id="due" type="date" value="${esc(m.due||'')}"></div>
+ <div><div class="big">${c}/${S.length}</div><div class="bigs">adım tamam</div></div></div>`;
+ if(!n)return `<section class="now done-panel"><div><div class="k">${esc(label(m.id))}</div><h2>Bu ayın raporu tamamlandı</h2>
+ <p class="hint">Son adım ${esc(fmt(m.done.s23))} tarihinde işaretlendi.</p></div>${side}</section>`;
+ const hint=n.id==='s1'?`Ayın son haftası: ${lastWeek(m.id)}`:n.h;
+ return `<section class="now"><div><div class="k">${esc(label(m.id))} · Faz ${n.ph+1}: ${esc(PHASES[n.ph].t)} · ${esc(GROUPS[n.g])}</div>
+ ${n.sub?`<div class="k" style="margin-top:6px">M-Files’a ilet · ${SUBS.filter(s=>m.done[s.id]).length}/${SUBS.length} alt adım</div>`:''}<h2>${esc(tt(n,m))}</h2>${hint?`<p class="hint">${esc(hint)}</p>`:''}
+ <p style="margin:0 0 18px"><span class="tag">${esc(PLACE[n.p])}</span> ${n.w?'<span class="tag">Bekleniyor</span>':''}</p>${n.id==='s6'?msgBox(m,1):''}${waitDilek(m)?follow(m):''}
+ <button class="go" data-act="tick" data-s="${n.id}">${n.w?'Geldi / tamamlandı':'Tamamlandı olarak işaretle'} <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>${side}</section>`}
+function phases(m){const n=nxt(m);const auto=n?n.ph:PHASES.length-1;const sel=curPh==null?auto:curPh;
+ const tot=cnt(m),tp=Math.round(tot/S.length*100);
+ const ps=PHASES.map((P,i)=>{const st=S.filter(s=>s.ph===i);const dn=st.filter(s=>m.done[s.id]).length;
+  return {i,P,all:st.length,dn,pc:Math.round(dn/st.length*100),stt:dn===st.length?'Tamam':(n&&n.ph===i)?'Devam ediyor':dn?'Kısmen':'Sırada'}});
+ const chart=`<section class="card prog"><div class="pgh"><h3>${esc(label(m.id))} Aylık Rapor</h3><span><b>%${tp}</b> · ${tot}/${S.length} adım</span></div>
+ <div class="trk" role="img" aria-label="Toplam ilerleme yüzde ${tp}">${ps.map(x=>`<span class="seg ${x.i===sel?'on':''}" style="flex:${x.all} 1 0"><i class="${x.dn===x.all?'ok':''}" style="width:${x.pc}%"></i></span>`).join('')}</div>
+ <div class="lgd">${ps.map(x=>`<button class="lg ${x.i===sel?'on':''}" data-act="ph" data-i="${x.i}" aria-pressed="${x.i===sel}" style="flex:${x.all} 1 0"><span class="lgt">Faz ${x.i+1} · ${esc(x.P.t)}</span><span class="lgn">${x.dn}/${x.all} · ${esc(x.stt)}</span></button>`).join('')}</div></section>`;
+ return chart+PHASES.map((_,i)=>i).map(i=>{const P=PHASES[i];const st=S.filter(s=>s.ph===i);const dn=st.filter(s=>m.done[s.id]).length;
+ return `<section class="card phase" id="faz-${i+1}"><div class="ph"><h3>Faz ${i+1} · ${esc(P.t)}</h3><span>${esc(P.w)} · ${dn}/${st.length}</span></div>`+
+ st.map(s=>{const d=m.done[s.id];const isCur=n&&n.id===s.id;
+  const k=st.indexOf(s);const sg=(k===0||st[k-1].g!==s.g)?`<div class="sg">${esc(GROUPS[s.g])}</div>`:'';
+  const grp=sg+(s.sub&&s===SUBS[0]?`<div class="grp">Dijital raporu M-Files’a ilet <span>${SUBS.filter(x=>m.done[x.id]).length}/${SUBS.length} alt adım</span></div>`:'');
+  const ss=stepState(m,s);const dis=ss.locked||(d&&!ss.undo);
+  return grp+`<div class="row ${d?'d':''} ${isCur?'cur':''} ${s.sub?'sub':''} ${ss.locked?'lock':''}"><button class="ck" data-act="tick" data-s="${s.id}" aria-label="${esc(tt(s,m))}" aria-pressed="${d?'true':'false'}" ${dis?'disabled':''} title="${ss.locked?'Önce önceki adımı tamamla':d&&!ss.undo?'Sonraki adım işaretli; önce onu geri al':''}">${ss.locked?LK:CK}</button>
+  <div class="t">${s.t.includes('{ay}')?'':`<span class="ay">${esc(label(m.id))}</span>`}${esc(tt(s,m))}${s.h?`<small>${esc(s.h)}</small>`:''}${!d&&s.w?`<small class="wait">Karşı taraf bekleniyor</small>`:''}${s.id==='s6'&&!isCur?msgBox(m,0):''}${s.id==='s19'&&!d?follow(m):''}</div>
+  <div class="r"><span class="tag pl">${esc(PLACE[s.p])}</span>${d?`<span>${esc(fmt(d))}</span>`:(n&&S.indexOf(s)>S.indexOf(n)?`<button class="upto" data-act="upto" data-s="${s.id}">buraya kadar tamam</button>`:'')}</div></div>`+
+  (s.ms&&d?`<div class="ms">${esc(s.ms)}</div>`:'')}).join('')+`</section>`}).join('')}
+function render(){pickCur();const m=state.months.find(x=>x.id===cur);
+ const op=open(),cl=closed();
+ const cg=m&&!nxt(m)?`<div class="congrats" role="status"><b>Tebrikler!</b> ${esc(label(m.id))} aylık raporu tamamlandı.</div>`:'';
+ app.innerHTML=cg+`<header><div class="wrap"><div class="top"><div class="ttl"><div class="eb">EMAY YÖNETİM SİSTEMİ</div><h1>Aylık Rapor <em>Takibi</em></h1><p class="lead">Hangi ayın raporu, hangi adımda, hangi katta — tek bakışta.</p></div><div id="sync">Hazır</div></div>
+ <div class="lbl">AÇIK AYLAR</div><div class="months">${op.map(card).join('')}<button class="mc add" data-act="add"><span>+</span> ${esc(label(nextId((state.months[state.months.length-1]||{id:iso(new Date()).slice(0,7)}).id)))} raporunu başlat</button></div>
+ ${cl.length?`<div class="lbl">BİTEN AYLAR</div><div class="arch">${cl.map(x=>`<button class="${x.id===cur?'on':''}" data-act="sel" data-id="${esc(x.id)}">${esc(label(x.id))}</button>`).join('')}</div>`:''}</div></header>
+ <main class="wrap"> ${m?nowPanel(m)+phases(m)+`<section class="card phase"><div class="ph"><h3>Notlar</h3><span>${esc(label(m.id))}</span></div>
+ <p class="note-s">Kime ne zaman teslim ettin, kimden imza bekliyorsun…</p><textarea id="note" style="margin-top:8px">${esc(m.note||'')}</textarea></section>
+ <div class="foot"><span class="note-s">Bir adımı geri almak için kutusuna tekrar dokun.</span><button class="ghost danger" data-act="del" data-id="${esc(m.id)}">${confirmDel===m.id?'Emin misin? '+esc(label(m.id))+' silinsin':esc(label(m.id))+' kaydını sil'}</button></div>`:'<p>Başlamak için bir ay ekle.</p>'}</main>`+cg;
+ setSync(syncText,syncCls)}
+let syncText='Hazır',syncCls='';
+function setSync(t,c){syncText=t;syncCls=c||'';const e=document.getElementById('sync');if(e){e.textContent=t;e.className=syncCls}}
+function buildDoc(){const head=[...document.head.querySelectorAll('[data-own]')].map(e=>e.outerHTML).join('\n');
+ const json=JSON.stringify(state).replace(/</g,'\\u003c');
+ return '<!DOCTYPE html>\n<html lang="tr">\n<head>\n'+head+'\n</head>\n<body>\n<div id="app"></div>\n<script data-own type="application/json" id="state">{"v":1,"updatedAt":1795533887211,"months":[{"id":"2026-10","due":"2026-11-06","done":{"s0":"2026-11-24","s1":"2026-11-24","s2":"2026-11-24","s3a":"2026-11-24","s3b":"2026-11-24","s4":"2026-11-24","s5":"2026-11-24","s6":"2026-11-24","s7a":"2026-11-24","s7b":"2026-11-24","s7c":"2026-11-24"},"note":""},{"id":"2026-11","due":"2026-12-04","done":{},"note":""}]}</script>
+</body>
+</html>
