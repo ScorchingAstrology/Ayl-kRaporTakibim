@@ -127,7 +127,7 @@ textarea{width:100%;min-height:110px;font:16px/1.5 Inter,sans-serif;padding:12px
 .ck{position:relative;z-index:1}
 .ck:disabled{cursor:not-allowed}
 .row.d .ck:disabled{opacity:.85}
-.row.lock .t,.row.lock .r .tag{opacity:.5}
+.row.lock .t{color:light-dark(#9aa3af,#6b7789)}.row.lock .t .ay,.row.lock .t small{opacity:.7}.row.lock .r .tag{opacity:.5}
 .row.lock .ck{background:var(--soft);border-style:dashed;color:var(--mute)}
 .ck svg.lk{opacity:.7;width:16px;height:16px}
 @media(max-width:600px){.row.sub::before{left:33px}.row.sub.cur::before{left:45px}}
@@ -149,6 +149,60 @@ header{padding:18px 0 16px}.eb{font-size:11px;margin-bottom:6px}h1{font-size:28p
 .card{padding:16px;margin-top:14px}.card.prog{padding:12px 16px 2px}.card.prog .pgh{margin-bottom:8px}
 .mbar{display:flex}main{padding-bottom:90px}
 }
+.row{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.row.em{grid-template-columns:30px 44px minmax(0,1fr) auto;background:var(--card);border-radius:10px}
+.sl{width:28px;height:28px;border-radius:50%;border:2px solid var(--fieldb);background:var(--card);display:grid;place-items:center;padding:0}
+.sl svg{width:16px;height:16px;opacity:0}.sl.on{background:var(--red);border-color:var(--red)}.sl.on svg{opacity:1}
+.row.em.pick{background:light-dark(#fdeeee,#2a1a22);box-shadow:inset 3px 0 0 var(--red)}
+.row.carry{opacity:.35}
+.row.drag[data-n]::after{content:attr(data-n);position:absolute;top:-10px;right:12px;background:var(--red);color:#fff;font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px}
+.ebar select{font:15px Inter,sans-serif;padding:8px 10px;border-radius:8px;border:1px solid var(--fieldb);background:var(--field);color:var(--ink);min-height:44px;max-width:100%}
+.row.em::before{display:none}
+.row.em .t{cursor:pointer}
+.hd{width:44px;height:44px;border:1px solid var(--fieldb);border-radius:8px;background:var(--soft);color:var(--mute);display:grid;place-items:center;cursor:grab;touch-action:none;padding:0}
+.hd:active{cursor:grabbing}
+.ghost.sm{min-height:36px;padding:6px 12px;font-size:13px}
+.row.drag{position:relative;z-index:40;box-shadow:0 12px 32px rgba(13,24,40,.25);border-radius:10px;background:var(--card);opacity:.96;animation:none!important}
+body.dragging{cursor:grabbing}
+.row.ins-b{box-shadow:inset 0 3px 0 var(--red)}.row.ins-a{box-shadow:inset 0 -3px 0 var(--red)}
+@media(prefers-reduced-motion:no-preference){.row.em:not(.drag){animation:jig .9s ease-in-out infinite alternate}.row.em:nth-child(even):not(.drag){animation-delay:-.45s}
+@keyframes jig{from{transform:scale(1)}to{transform:scale(1.012)}}}
+.ebar{position:fixed;left:0;right:0;bottom:0;z-index:35;background:var(--card);box-shadow:0 -6px 24px rgba(13,24,40,.18);padding:10px max(4vw,16px) calc(10px + env(safe-area-inset-bottom));display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;border-top:3px solid var(--red)}
+.ebar .et{flex:1 1 220px;display:flex;flex-direction:column;font-size:13px;color:var(--mute);line-height:1.3}.ebar .et b{color:var(--ink);font-size:15px}
+.ebar .go{min-height:44px;padding:10px 22px;box-shadow:none}
+body:has(.ebar) main{padding-bottom:120px}
+.dlgbg{position:fixed;inset:0;z-index:60;background:rgba(8,14,24,.55);display:grid;place-items:center;padding:16px}
+.dlg{background:var(--card);color:var(--ink);border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.35);padding:22px;width:min(520px,100%);max-height:calc(100vh - 32px);overflow:auto;display:grid;gap:6px}
+.dlg h3{font-size:22px;margin-bottom:8px}
+.dlg label{font-size:14px;font-weight:500;margin-top:8px}
+.dlg input:not([type=checkbox]),.dlg select{font:16px Inter,sans-serif;padding:10px 12px;border-radius:8px;border:1px solid var(--fieldb);background:var(--field);color:var(--ink);min-height:46px;width:100%}
+.dlg .fh{font-size:12px;color:var(--mute);margin:2px 0 0}
+.f2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.dlg .cb{display:flex;gap:10px;align-items:center;font-weight:400;min-height:36px}.dlg .cb input{width:20px;height:20px;accent-color:var(--red)}
+.dbtn{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}.dbtn span{flex:1}
+.dbtn .go{min-height:44px;padding:10px 22px;box-shadow:none}
+@media(max-width:600px){.f2{grid-template-columns:1fr}.dlgbg{place-items:end center;padding:0}.dlg{border-radius:16px 16px 0 0;padding-bottom:calc(22px + env(safe-area-inset-bottom))}.row.em .r .pl{display:none}.row.em{grid-template-columns:30px 44px minmax(0,1fr);gap:10px}.row.em .r{display:none}.ebar .et{flex-basis:100%}}
+.row.lv1{padding-left:28px}.row.lv2{padding-left:56px}
+.row.cur.lv1{padding-left:40px}.row.cur.lv2{padding-left:68px}
+.row.lv1::before{left:47px}.row.lv2::before{left:75px}.row.cur.lv1::before{left:59px}.row.cur.lv2::before{left:87px}
+.row.par .t{font-weight:600}.row.par .t small{font-weight:400}
+.ck.pc{display:grid;place-items:center;border-style:solid;cursor:default}.row.par.d .ck.pc{background:var(--navy);border-color:var(--navy)}.row.par.d .t{text-decoration:none;color:var(--ink)}
+.row.em.par .t{font-weight:600}
+#dropline{position:fixed;height:3px;background:var(--red);z-index:70;pointer-events:none;border-radius:2px;display:none}
+#dropline::before{content:"";position:absolute;left:-1px;top:-14px;width:3px;height:31px;background:var(--red);border-radius:2px}
+#dropline span{position:absolute;left:8px;top:-22px;font:600 11px Inter,sans-serif;color:#fff;background:var(--red);padding:1px 7px;border-radius:99px;white-space:nowrap}
+@media(max-width:600px){.row.lv1{padding-left:18px}.row.lv2{padding-left:36px}.row.cur.lv1{padding-left:30px}.row.cur.lv2{padding-left:48px}.row.lv1::before{left:37px}.row.lv2::before{left:55px}.row.cur.lv1::before{left:49px}.row.cur.lv2::before{left:67px}}
+.ppl{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;text-decoration:none}
+.pp{display:inline-flex;align-items:center;gap:6px;background:var(--soft);border:1px solid var(--rule);border-radius:99px;padding:2px 10px 2px 2px;font-size:13px;font-weight:500;color:var(--ink);line-height:1.2}
+.pp i{font-style:normal;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em;flex:none}
+.ppl.big{margin:2px 0 14px;align-items:center}.ppl.big .pp{font-size:14px;padding:3px 12px 3px 3px;background:var(--card);border-color:var(--fieldb)}.ppl.big .pp i{width:28px;height:28px;font-size:12px}
+.ppk{font-size:13px;color:var(--mute);margin-right:4px}
+.row.d .pp{opacity:.6}
+.ppe{display:flex;flex-wrap:wrap;gap:6px;min-height:8px}
+.pp.chip{padding:0;background:none;border:0}.pp.chip>.pp{padding-right:6px}
+.pp.chip{gap:0}.px{border:0;background:none;color:var(--mute);font-size:18px;line-height:1;width:28px;height:28px;margin-left:-4px;border-radius:50%;padding:0}
+.px:hover{color:var(--red);background:var(--soft)}
+.padd{display:flex;gap:8px;flex-wrap:wrap}.padd input{flex:1 1 200px}.padd .ghost{white-space:nowrap}
 .note-s{font-size:13px;color:var(--mute);margin:6px 0 0}
 @media(max-width:600px){.row{grid-template-columns:40px minmax(0,1fr);row-gap:2px}.r{grid-column:2;flex-direction:row;align-items:center;gap:10px;text-align:left}.r:empty{display:none}}
 .add{display:flex;align-items:center;justify-content:center;gap:6px;min-height:120px}
@@ -157,7 +211,7 @@ header{padding:18px 0 16px}.eb{font-size:11px;margin-bottom:6px}h1{font-size:28p
 </head>
 <body>
 <div id="app"></div>
-<script data-own type="application/json" id="state">{"v":1,"updatedAt":1795534746031,"months":[{"id":"2026-10","due":"2026-11-06","done":{"s0":"2026-11-24","s1":"2026-11-24"},"note":""},{"id":"2026-11","due":"2026-12-04","done":{},"note":""}]}</script>
+<script data-own type="application/json" id="state">{"v":1,"updatedAt":1795606460460,"months":[{"id":"2026-10","due":"2026-11-06","done":{"s0":"2026-11-24","s1":"2026-11-24","s2":"2026-11-25","s3a":"2026-11-25","s3b":"2026-11-25","s4":"2026-11-25","s8":"2026-11-25","s7a":"2026-11-25","s7b":"2026-11-25","s11":"2026-11-25","s7c":"2026-11-25","s9":"2026-11-25","s10":"2026-11-25","s12":"2026-11-25","s5b":"2026-11-25"},"note":""},{"id":"2026-11","due":"2026-12-04","done":{},"note":""}],"steps":[{"id":"s0","g":0,"t":"{ay} Aylık Rapor Taslağını Oluştur","p":"gd","h":"Google Drive’da, mail atmadan önce","w":false,"ms":"","lv":0,"pp":[]},{"id":"s1","g":0,"t":"Rapor yazarlarına mail at, son tarihi bildir","p":"mail","h":"Ayın son haftasında","w":false,"ms":"","lv":0,"pp":[]},{"id":"s2","g":0,"t":"Yazarlar raporu tamamladı","p":"masa","h":"","w":true,"ms":"","lv":0,"pp":[]},{"id":"s3a","g":1,"t":"Yatırım Yönetimi başlığına metin ekle","p":"masa","h":"Kendi bölümüm (1/2)","w":false,"ms":"","lv":0,"pp":[]},{"id":"s3b","g":1,"t":"İletişim Hizmetleri metnini düzenle","p":"masa","h":"Kendi bölümüm (2/2)","w":false,"ms":"","lv":0,"pp":[]},{"id":"s4","g":1,"t":"Raporu dijital olarak hazırla","p":"dij","h":"","w":false,"ms":"","lv":0,"pp":[]},{"id":"s8","g":1,"t":"Sosyal medya raporunun bölümlerini tamamla","p":"masa","h":"En az yarım gün ayır","w":false,"ms":"","lv":0,"pp":[]},{"id":"s7a","g":1,"t":"{ay} Aylık Rapor konteynırına yükle","p":"mf","h":"","w":false,"ms":"","lv":0,"pp":[]},{"id":"s7b","g":1,"t":"{ay} İletişim Rapor konteynırına yükle","p":"mf","h":"","w":false,"ms":"","lv":0,"pp":[]},{"id":"s11","g":1,"t":"Üst yazıyı M-Files’ta hazırla","p":"mf","h":"","w":false,"ms":"","lv":0,"pp":[]},{"id":"s7c","g":1,"t":"{ay} raporlarını yazıya iliştir","p":"mf","h":"","w":false,"ms":"","lv":0,"pp":[]},{"id":"s9","g":1,"t":"Sosyal medya raporunun çıktısını al","p":"masa","h":"Rapor uzantısı (hard copy)","w":false,"ms":"","lv":0,"pp":[]},{"id":"s10","g":1,"t":"Ekleri USB’ye yükle","p":"masa","h":"","w":false,"ms":"","lv":0,"pp":[]},{"id":"s12","g":1,"t":"Taslak Yazıyı yazı işlerine gönder","p":"sek","h":"","w":false,"ms":"","lv":0,"pp":["Fatma Bekgeldi"]},{"id":"s5b","g":1,"t":"Taslak Yazıyı imzalat ve kaşele","p":"masa","h":"İmza + kaşe","w":false,"ms":"","lv":0,"pp":["Sinan Alemdar","Fatma Bekgeldi"]},{"id":"s6","g":1,"t":"Dijital raporu WhatsApp “Aylık Rapor” grubuna gönder","p":"wp","h":"Hazır mesajı kopyala, dosyayla birlikte gönder","w":false,"ms":"","lv":0,"pp":["Eyüp Emre Kasap","Usame Ekici"]},{"id":"s13","g":2,"t":"İletişim Hizmetleri (hard copy) Asma kat Büroya teslim et","p":"asma","h":"“Görüldü” imzası için · Dilek Özden ve Osman Bey","w":false,"ms":"","lv":0,"pp":["Dilek Özden","Osman Bey"]},{"id":"s14","g":2,"t":"Üst yazı + dijital rapor (USB) 9. kat bürosuna teslim et","p":"k9","h":"","w":false,"ms":"","lv":0,"pp":["Eyüp Emre Kasap","Usame Ekici"]},{"id":"s15","g":2,"t":"Üst yazıyı imzalat \"Teslim Alındı\"","p":"k9","h":"Eyüp Emre Kasap, Usame Ekici","w":false,"ms":"","lv":0,"pp":["Eyüp Emre Kasap","Usame Ekici"]},{"id":"s16","g":2,"t":"İmzalı Üst Yazı, Evrak Kayda girdi","p":"k9","h":"","w":true,"ms":"","lv":0,"pp":[]},{"id":"umww1mrd3","g":2,"t":"Evrak Kayıt No'lu Üstyazı Yazı işlerine Teslim Edildi","p":"masa","h":"","w":false,"ms":"","lv":0,"pp":["Fatma Bekgeldi"]},{"id":"s18","g":3,"t":"9. katta dijital rapor incelendi","p":"k9","h":"","w":true,"ms":"","lv":0,"pp":["Eyüp Emre Kasap","Usame Ekici"]},{"id":"s19","g":3,"t":"Dilek Özden’den “görüldü” imzalı uzantıyı geri al","p":"asma","h":"Asma kat","w":true,"ms":"","lv":0,"pp":["Dilek Özden"]},{"id":"s20","g":3,"t":"İmzalı uzantıyı 9. kat bürosuna teslim et","p":"k9","h":"","w":false,"ms":"","lv":0,"pp":["Eyüp Emre Kasap","Usame Ekici"]},{"id":"s21","g":3,"t":"9. kattan görüş ve düzeltmeleri al","p":"k9","h":"","w":true,"ms":"","lv":0,"pp":["Eyüp Emre Kasap","Usame Ekici"]},{"id":"s22","g":3,"t":"Düzeltmeleri işle, dijital raporun çıktısını al","p":"masa","h":"","w":false,"ms":"","lv":0,"pp":[]},{"id":"s23","g":3,"t":"Düzeltilmiş çıktıyı teslim et","p":"k9","h":"","w":false,"ms":"Ayın raporu tamamlandı","lv":0,"pp":["Usame Ekici","Eyüp Emre Kasap"]}]}</script>
 <script data-own id="appjs">
 {
 const AY=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
@@ -168,7 +222,7 @@ const GROUPS=['Taslak, mail ve toplama','Raporu hazırla ve ilet','Teslim turu',
 const PHASES=[
  {t:'İlk sunum',w:'Taslaktan imzalı yazının sekretere teslimine kadar'},
  {t:'Görüş alma',w:'İnceleme, düzeltme ve son teslim'}];
-const S=[
+const DEFAULT=[
  ['s0',0,'{ay} Aylık Rapor Taslağını Oluştur','gd','Google Drive’da, mail atmadan önce'],
  ['s1',0,'Rapor yazarlarına mail at, son tarihi bildir','mail','Ayın son haftasında'],
  ['s2',0,'Yazarlar raporu tamamladı','masa','',1],
@@ -179,6 +233,7 @@ const S=[
  ['s5',1,'Taslak üst yazıyı al','masa'],
  ['s5b',1,'Üst yazıyı imzalat ve kaşele','masa','İmza + kaşe'],
  ['s6',1,'Dijital raporu WhatsApp “Aylık Rapor” grubuna gönder','wp','Hazır mesajı kopyala, dosyayla birlikte gönder'],
+ ['s7',1,'Dijital raporu M-Files’a ilet','mf'],
  ['s7a',1,'{ay} Aylık Rapor konteynırına yükle','mf','',0,'',1],
  ['s7b',1,'{ay} İletişim Rapor konteynırına yükle','mf','',0,'',1],
  ['s7c',1,'{ay} raporlarını yazıya iliştir','mf','',0,'',1],
@@ -197,8 +252,23 @@ const S=[
  ['s21',3,'9. kattan görüş ve düzeltmeleri al','k9','',1],
  ['s22',3,'Düzeltmeleri işle, dijital raporun çıktısını al','masa'],
  ['s23',3,'Düzeltilmiş çıktıyı teslim et','k9','',0,'Ayın raporu tamamlandı']
-].map(a=>({id:a[0],ph:a[1]<3?0:1,g:a[1],t:a[2],p:a[3],h:a[4]||'',w:!!a[5],ms:a[6]||'',sub:!!a[7]}));
-const SUBS=S.filter(s=>s.sub);
+].map(a=>({id:a[0],g:a[1],t:a[2],p:a[3],h:a[4]||'',w:!!a[5],ms:a[6]||'',lv:a[7]?1:0}));
+const normSteps=list=>{if(!list.some(o=>o.lv==null))return list;const out=[];let runEnded=false,runSeen=false;list.forEach((o,i)=>{if(o.lv==null){if(o.sub)runSeen=true;else if(runSeen)runEnded=true}const lv=o.lv!=null?o.lv:(o.sub&&!runEnded?1:0);if(o.lv==null&&o.sub&&(i===0||!list[i-1].sub)&&!list.some(x=>x.id==='s7')&&!out.some(x=>x.id==='s7'))out.push({id:'s7',g:o.g,t:'Dijital raporu M-Files’a ilet',p:'mf',h:'',w:false,ms:'',lv:0});const {sub,...r}=o;out.push({...r,lv})});return out};
+let S=[],L=[];
+const syncSteps=()=>{const has=state&&Array.isArray(state.steps)&&state.steps.length;if(has)state.steps=normSteps(state.steps);S=(has?state.steps:DEFAULT).map(o=>({...o,lv:Math.min(2,Math.max(0,o.lv|0)),ph:o.g<3?0:1}));S.forEach((x,i)=>{x.kids=!!(S[i+1]&&S[i+1].lv>x.lv)});L=S.filter(x=>!x.kids)};
+const desc=s=>{const i=S.indexOf(s);const out=[];for(let j=i+1;j<S.length&&S[j].lv>s.lv;j++)out.push(S[j]);return out};
+const leavesOf=s=>desc(s).filter(x=>!x.kids);
+const isDone=(m,s)=>s.kids?leavesOf(s).every(x=>m.done[x.id]):!!m.done[s.id];
+const parentOf=s=>{const i=S.indexOf(s);for(let j=i-1;j>=0;j--)if(S[j].lv<s.lv)return S[j];return null};
+const LVN=['Adım','Alt adım','Alt-alt adım'];
+const DEFPP={s13:['Dilek Özden'],s19:['Dilek Özden']};
+const ppl=s=>Array.isArray(s.pp)?s.pp:(DEFPP[s.id]||[]);
+const PPC=['#1a2a44','#dc2f2f','#0b6e6e','#6b3fa0','#b4610f','#1f8a4c','#a0336b','#2f5fb3'];
+const ini=n=>String(n).trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toLocaleUpperCase('tr');
+const pcol=n=>{let h=0;for(const ch of String(n))h=(h*31+ch.charCodeAt(0))>>>0;return PPC[h%PPC.length]};
+const avatar=n=>`<span class="pp" title="${esc(n)}"><i style="background:${pcol(n)}">${esc(ini(n))}</i><span>${esc(n)}</span></span>`;
+const pplRow=s=>{const a=ppl(s);return a.length?`<div class="ppl">${a.map(avatar).join('')}</div>`:''};
+const allPeople=()=>[...new Set(S.flatMap(ppl))].sort((a,b)=>a.localeCompare(b,'tr'));
 const tt=(s,m)=>s.t.replace('{ay}',label(m.id));
 const KEY='rapor-takip-v1';
 const app=document.getElementById('app');
@@ -212,7 +282,7 @@ const nextId=id=>{let[y,m]=id.split('-').map(Number);m++;if(m>12){m=1;y++}return
 const defDue=id=>{const[y,m]=nextId(id).split('-').map(Number);const d=new Date(y,m-1,1);while(d.getDay()!==5)d.setDate(d.getDate()+1);return iso(d)};
 const today=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
 const left=s=>Math.round((pd(s)-today())/864e5);
-const nxt=m=>S.find(s=>!m.done[s.id]);
+const nxt=m=>L.find(s=>!m.done[s.id]);
 const dNum=()=>(state.contacts&&state.contacts.dilek)||'';
 const waNum=r=>{let d=String(r||'').replace(/\D/g,'');if(d.startsWith('0'))d='9'+d;else if(d.length===10&&d[0]==='5')d='90'+d;return d};
 const waitDilek=m=>!!(m.done.s13&&!m.done.s19);
@@ -227,12 +297,14 @@ function follow(m){const num=waNum(dNum());const dd=sinceDays(m.done.s13);const 
 const waMsg=m=>`Günaydın, ${label(m.id)} Aylık Raporumuzu tamamladık, görüşlerinize sunmak için buradan iletiyorum. Sunuş yazısını da gün içinde getireceğim. İyi çalışmalar 🙏`;
 const msgBox=(m,dark)=>`<div class="msg ${dark?'dk':''}"><textarea readonly rows="3" aria-label="Hazır WhatsApp mesajı">${esc(waMsg(m))}</textarea>
  <div class="mrow"><button class="ghost" data-act="copy">Mesajı kopyala</button><a class="ghost" href="https://wa.me/?text=${encodeURIComponent(waMsg(m))}" target="_blank" rel="noopener">WhatsApp’ta aç</a></div></div>`;
-const cnt=m=>S.filter(s=>m.done[s.id]).length;
+const cnt=m=>L.filter(s=>m.done[s.id]).length;
 const lastWeek=id=>{const[y,m]=id.split('-').map(Number);const L=new Date(y,m,0).getDate();return (L-6)+'–'+L+' '+AYK[m-1]};
 let state;try{state=JSON.parse(document.getElementById('state').textContent)}catch(e){state={v:1,updatedAt:0,months:[]}}
-const migrate=()=>state.months.forEach(m=>{if(m.done&&m.done.s3){m.done.s3a=m.done.s3a||m.done.s3;m.done.s3b=m.done.s3b||m.done.s3;delete m.done.s3}if(m.done&&m.done.s7){SUBS.forEach(s=>{m.done[s.id]=m.done[s.id]||m.done.s7});delete m.done.s7}});
-migrate();
-let art=null,timer=null,confirmDel=null,curPh=null,editNum=false;
+const migrate=()=>state.months.forEach(m=>{if(m.done&&m.done.s3){m.done.s3a=m.done.s3a||m.done.s3;m.done.s3b=m.done.s3b||m.done.s3;delete m.done.s3}if(m.done&&m.done.s7){DEFAULT.filter(x=>x.lv>0).forEach(s=>{m.done[s.id]=m.done[s.id]||m.done.s7});delete m.done.s7}});
+migrate();syncSteps();
+let art=null,timer=null,confirmDel=null,curPh=null,editNum=false,editMode=false,dlg=null,chosen=new Set(),confirmBulk=false,confirmStep=null,confirmReset=false,noClickUntil=0,restoreY=null;
+const UIK='rapor-takip-ui';
+const uiSave=()=>{try{sessionStorage.setItem(UIK,JSON.stringify({e:editMode,c:[...chosen],y:scrollY,t:Date.now()}))}catch(_){}};
 let cur=null;try{cur=localStorage.getItem(KEY+'-cur')}catch(e){}
 const open=()=>state.months.filter(m=>nxt(m));
 const closed=()=>state.months.filter(m=>!nxt(m));
@@ -242,41 +314,59 @@ function dueBit(m){if(!m.due||!nxt(m))return'';const n=left(m.due);
  return `<span class="${n<0&&!m.done.s12?'late':''}">Son tarih ${esc(fmt(m.due))} · ${t}</span>`}
 function card(m){const n=nxt(m),c=cnt(m);
  return `<button class="mc ${m.id===cur?'on':''}" data-act="sel" data-id="${esc(m.id)}">
- <h3>${esc(label(m.id))}</h3><div class="bar"><i style="width:${Math.round(c/S.length*100)}%"></i></div>
+ <h3>${esc(label(m.id))}</h3><div class="bar"><i style="width:${Math.round(c/L.length*100)}%"></i></div>
  <div class="nx">${n?`Sıradaki: <b>${esc(tt(n,m))}</b>`:'Tamamlandı'}</div>
- <div class="meta"><span>${c}/${S.length} adım</span>${n?`<span class="tag">${esc(PLACE[n.p])}</span>`:''}${dueBit(m)}${waitDilek(m)?'<span class="dl">Dilek Hanım bekleniyor</span>':''}</div></button>`}
+ <div class="meta"><span>${c}/${L.length} adım</span>${n?`<span class="tag">${esc(PLACE[n.p])}</span>`:''}${dueBit(m)}${waitDilek(m)?'<span class="dl">Dilek Hanım bekleniyor</span>':''}</div></button>`}
 const LK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lk"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
-const stepState=(m,s)=>{const i=S.indexOf(s);const f=S.findIndex(x=>!m.done[x.id]);const first=f<0?S.length:f;const d=!!m.done[s.id];
- return {locked:!d&&i>first,undo:d&&(i===S.length-1||!m.done[S[i+1].id])}};
+const stepState=(m,s)=>{if(s.kids)return{locked:false,undo:false};const i=L.indexOf(s);const f=L.findIndex(x=>!m.done[x.id]);const first=f<0?L.length:f;const d=!!m.done[s.id];
+ return {locked:!d&&i>first,undo:d&&(i===L.length-1||!m.done[L[i+1].id])}};
 const CK='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
 function nowPanel(m){const n=nxt(m),c=cnt(m);
  const side=`<div class="side"><div><label for="due">Raporun son tarihi</label><input id="due" type="date" value="${esc(m.due||'')}"></div>
- <div><div class="big">${c}/${S.length}</div><div class="bigs">adım tamam</div></div></div>`;
+ <div><div class="big">${c}/${L.length}</div><div class="bigs">adım tamam</div></div></div>`;
  if(!n)return `<section class="now done-panel"><div><div class="k">${esc(label(m.id))}</div><h2>Bu ayın raporu tamamlandı</h2>
- <p class="hint">Son adım ${esc(fmt(m.done.s23))} tarihinde işaretlendi.</p></div>${side}</section>`;
+ <p class="hint">Son adım ${esc(fmt(m.done[L[L.length-1].id]))} tarihinde işaretlendi.</p></div>${side}</section>`;
  const hint=n.id==='s1'?`Ayın son haftası: ${lastWeek(m.id)}`:n.h;
  return `<section class="now"><div><div class="k">${esc(label(m.id))} · Faz ${n.ph+1}: ${esc(PHASES[n.ph].t)} · ${esc(GROUPS[n.g])}</div>
- ${n.sub?`<div class="k" style="margin-top:6px">M-Files’a ilet · ${SUBS.filter(s=>m.done[s.id]).length}/${SUBS.length} alt adım</div>`:''}<h2>${esc(tt(n,m))}</h2>${hint?`<p class="hint">${esc(hint)}</p>`:''}
+ ${n.lv>0&&parentOf(n)?`<div class="k" style="margin-top:6px">${esc(tt(parentOf(n),m))} · ${leavesOf(parentOf(n)).filter(x=>m.done[x.id]).length}/${leavesOf(parentOf(n)).length} alt adım</div>`:''}<h2>${esc(tt(n,m))}</h2>${ppl(n).length?`<div class="ppl big"><span class="ppk">İlgili kişiler</span>${ppl(n).map(avatar).join('')}</div>`:''}${hint?`<p class="hint">${esc(hint)}</p>`:''}
  <p style="margin:0 0 18px"><span class="tag">${esc(PLACE[n.p])}</span> ${n.w?'<span class="tag">Bekleniyor</span>':''}</p>${n.id==='s6'?msgBox(m,1):''}${waitDilek(m)?follow(m):''}
  <button class="go" data-act="tick" data-s="${n.id}">${n.w?'Geldi / tamamlandı':'Tamamlandı olarak işaretle'} <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>${side}</section>`}
 function phases(m){const n=nxt(m);const auto=n?n.ph:PHASES.length-1;const sel=curPh==null?auto:curPh;
- const tot=cnt(m),tp=Math.round(tot/S.length*100);
- const ps=PHASES.map((P,i)=>{const st=S.filter(s=>s.ph===i);const dn=st.filter(s=>m.done[s.id]).length;
+ const tot=cnt(m),tp=Math.round(tot/L.length*100);
+ const ps=PHASES.map((P,i)=>{const st=L.filter(s=>s.ph===i);const dn=st.filter(s=>m.done[s.id]).length;
   return {i,P,all:st.length,dn,pc:Math.round(dn/st.length*100),stt:dn===st.length?'Tamam':(n&&n.ph===i)?'Devam ediyor':dn?'Kısmen':'Sırada'}});
- const chart=`<section class="card prog"><div class="pgh"><h3>${esc(label(m.id))} Aylık Rapor</h3><span><b>%${tp}</b> · ${tot}/${S.length} adım</span></div>
+ const chart=`<section class="card prog"><div class="pgh"><h3>${esc(label(m.id))} Aylık Rapor</h3><span><b>%${tp}</b> · ${tot}/${L.length} adım</span></div>
  <div class="trk" role="img" aria-label="Toplam ilerleme yüzde ${tp}">${ps.map(x=>`<span class="seg ${x.i===sel?'on':''}" style="flex:${x.all} 1 0"><i class="${x.dn===x.all?'ok':''}" style="width:${x.pc}%"></i></span>`).join('')}</div>
  <div class="lgd">${ps.map(x=>`<button class="lg ${x.i===sel?'on':''}" data-act="ph" data-i="${x.i}" aria-pressed="${x.i===sel}" style="flex:${x.all} 1 0"><span class="lgt">Faz ${x.i+1} · ${esc(x.P.t)}</span><span class="lgn">${x.dn}/${x.all} · ${esc(x.stt)}</span></button>`).join('')}</div></section>`;
- return chart+PHASES.map((_,i)=>i).map(i=>{const P=PHASES[i];const st=S.filter(s=>s.ph===i);const dn=st.filter(s=>m.done[s.id]).length;
- return `<section class="card phase" id="faz-${i+1}"><div class="ph"><h3>Faz ${i+1} · ${esc(P.t)}</h3><span>${esc(P.w)} · ${dn}/${st.length}</span></div>`+
+ return chart+PHASES.map((_,i)=>i).map(i=>{const P=PHASES[i];const st=S.filter(s=>s.ph===i);const stl=st.filter(s=>!s.kids);const dn=stl.filter(s=>m.done[s.id]).length;
+ return `<section class="card phase" id="faz-${i+1}"><div class="ph"><h3>Faz ${i+1} · ${esc(P.t)}</h3><span>${esc(P.w)} · ${dn}/${stl.length}${editMode?'':` · <button class="lnk" data-act="emode">Adımları düzenle</button>`}</span></div>`+
  st.map(s=>{const d=m.done[s.id];const isCur=n&&n.id===s.id;
   const k=st.indexOf(s);const sg=(k===0||st[k-1].g!==s.g)?`<div class="sg">${esc(GROUPS[s.g])}</div>`:'';
-  const grp=sg+(s.sub&&s===SUBS[0]?`<div class="grp">Dijital raporu M-Files’a ilet <span>${SUBS.filter(x=>m.done[x.id]).length}/${SUBS.length} alt adım</span></div>`:'');
+  const grp=sg;
   const ss=stepState(m,s);const dis=ss.locked||(d&&!ss.undo);
-  return grp+`<div class="row ${d?'d':''} ${isCur?'cur':''} ${s.sub?'sub':''} ${ss.locked?'lock':''}"><button class="ck" data-act="tick" data-s="${s.id}" aria-label="${esc(tt(s,m))}" aria-pressed="${d?'true':'false'}" ${dis?'disabled':''} title="${ss.locked?'Önce önceki adımı tamamla':d&&!ss.undo?'Sonraki adım işaretli; önce onu geri al':''}">${ss.locked?LK:CK}</button>
-  <div class="t">${s.t.includes('{ay}')?'':`<span class="ay">${esc(label(m.id))}</span>`}${esc(tt(s,m))}${s.h?`<small>${esc(s.h)}</small>`:''}${!d&&s.w?`<small class="wait">Karşı taraf bekleniyor</small>`:''}${s.id==='s6'&&!isCur?msgBox(m,0):''}${s.id==='s19'&&!d?follow(m):''}</div>
-  <div class="r"><span class="tag pl">${esc(PLACE[s.p])}</span>${d?`<span>${esc(fmt(d))}</span>`:(n&&S.indexOf(s)>S.indexOf(n)?`<button class="upto" data-act="upto" data-s="${s.id}">buraya kadar tamam</button>`:'')}</div></div>`+
+  if(editMode)return grp+`<div class="row em lv${s.lv} ${s.kids?'par':''} ${chosen.has(s.id)?'pick':''}" data-sid="${esc(s.id)}"><button class="sl ${chosen.has(s.id)?'on':''}" data-act="ssel" data-s="${esc(s.id)}" aria-pressed="${chosen.has(s.id)}" aria-label="Seç: ${esc(tt(s,m))}">${CK}</button><button class="hd" aria-label="Sürükleyerek taşı: ${esc(tt(s,m))}">${GRIP}</button><div class="t" data-act="sedit" data-s="${esc(s.id)}">${esc(tt(s,m))}${s.h?`<small>${esc(s.h)}</small>`:''}${pplRow(s)}</div><div class="r"><span class="tag pl">${esc(PLACE[s.p]||s.p)}</span><button class="ghost sm" data-act="sedit" data-s="${esc(s.id)}">Düzenle</button></div></div>`;
+  if(s.kids){const lf=leavesOf(s),ld=lf.filter(x=>m.done[x.id]).length,all=ld===lf.length;return grp+`<div data-sid="${esc(s.id)}" class="row par lv${s.lv} ${all?'d':''}"><span class="ck pc" aria-hidden="true">${all?CK:''}</span><div class="t">${s.t.includes('{ay}')?'':`<span class="ay">${esc(label(m.id))}</span>`}${esc(tt(s,m))}<small>${ld}/${lf.length} alt adım tamam${s.h?' · '+esc(s.h):''}</small>${pplRow(s)}</div><div class="r"><span class="tag pl">${esc(PLACE[s.p]||s.p)}</span></div></div>`}
+  return grp+`<div data-sid="${esc(s.id)}" class="row lv${s.lv} ${d?'d':''} ${isCur?'cur':''} ${ss.locked?'lock':''}"><button class="ck" data-act="tick" data-s="${s.id}" aria-label="${esc(tt(s,m))}" aria-pressed="${d?'true':'false'}" ${dis?'disabled':''} title="${ss.locked?'Önce önceki adımı tamamla':d&&!ss.undo?'Sonraki adım işaretli; önce onu geri al':''}">${ss.locked?LK:CK}</button>
+  <div class="t">${s.t.includes('{ay}')?'':`<span class="ay">${esc(label(m.id))}</span>`}${esc(tt(s,m))}${s.h?`<small>${esc(s.h)}</small>`:''}${!d&&s.w?`<small class="wait">Karşı taraf bekleniyor</small>`:''}${pplRow(s)}${s.id==='s6'&&!isCur?msgBox(m,0):''}${s.id==='s19'&&!d?follow(m):''}</div>
+  <div class="r"><span class="tag pl">${esc(PLACE[s.p]||s.p)}</span>${d?`<span>${esc(fmt(d))}</span>`:(n&&S.indexOf(s)>S.indexOf(n)?`<button class="upto" data-act="upto" data-s="${s.id}">buraya kadar tamam</button>`:'')}</div></div>`+
   (s.ms&&d?`<div class="ms">${esc(s.ms)}</div>`:'')}).join('')+`</section>`}).join('')}
-const mbar=m=>{const n=m&&nxt(m);if(!n)return'';return `<div class="mbar"><div class="mt">${esc(label(m.id))} · sıradaki adım<b>${esc(tt(n,m))}</b></div><button class="go" data-act="tick" data-s="${n.id}">${n.w?'Geldi':'Tamamlandı'}</button></div>`};
+const ebar=()=>chosen.size?`<div class="ebar"><div class="et"><b>${chosen.size} adım seçili</b><span>Tutamaktan sürükleyince hepsi birlikte taşınır</span></div><select id="bulkg" aria-label="Taşınacak bölüm">${GROUPS.map((g,i)=>`<option value="${i}">Faz ${i<3?1:2} · ${esc(g)}</option>`).join('')}</select><button class="ghost" data-act="bmove">Bölüme taşı</button><button class="ghost danger" data-act="bdel">${confirmBulk?'Emin misin? '+chosen.size+' adımı sil':'Seçilenleri sil'}</button><button class="ghost" data-act="bclear">Seçimi kaldır</button><button class="go" data-act="edone">Bitti</button></div>`:`<div class="ebar"><div class="et"><b>Düzenleme modu</b><span>Tutamaktan sürükle, daireye dokunup birden fazla seç, ada dokunup düzenle</span></div><button class="ghost" data-act="sadd">+ Adım ekle</button><button class="ghost danger" data-act="sreset">${confirmReset?'Emin misin? Varsayılana dön':'Varsayılana dön'}</button><button class="go" data-act="edone">Bitti</button></div>`;
+function dialog(m){if(!dlg)return'';const isNew=dlg==='new';const n=m&&nxt(m);const s=isNew?{t:'',h:'',p:'masa',g:n?n.g:1,w:false,lv:0}:S.find(x=>x.id===dlg);if(!s)return'';
+ return `<div class="dlgbg" data-act="dclose"><form class="dlg" id="sform" role="dialog" aria-modal="true" aria-labelledby="dlgt"><h3 id="dlgt">${isNew?'Yeni adım':'Adımı düzenle'}</h3>
+ <label for="f_t">Adım adı</label><input id="f_t" required value="${esc(s.t)}" placeholder="Örn. Üst yazıyı imzalat"><p class="fh">{ay} yazarsan oraya ayın adı gelir, örneğin “{ay} raporunu gönder”.</p>
+ <label for="f_h">Kısa açıklama</label><input id="f_h" value="${esc(s.h)}" placeholder="İsteğe bağlı">
+ <div class="f2"><div><label for="f_p">Yer</label><select id="f_p">${Object.entries(PLACE).map(([k,v])=>`<option value="${k}" ${k===s.p?'selected':''}>${esc(v)}</option>`).join('')}</select></div>
+ <div><label for="f_g">Bölüm</label><select id="f_g">${GROUPS.map((g,i)=>`<option value="${i}" ${i===s.g?'selected':''}>Faz ${i<3?1:2} · ${esc(g)}</option>`).join('')}</select></div></div>
+ <label class="cb"><input type="checkbox" id="f_w" ${s.w?'checked':''}> Karşı taraf bekleniyor (bekleme adımı)</label>
+ <label for="f_lv">Seviye</label><select id="f_lv">${LVN.map((x,i)=>`<option value="${i}" ${i===(s.lv|0)?'selected':''}>${x}</option>`).join('')}</select>
+ <label for="f_pnew">İlgili kişiler</label><div class="ppe" id="f_pp">${ppl(s).map(n=>`<span class="pp chip" data-name="${esc(n)}">${avatar(n)}<button type="button" class="px" data-act="prm" aria-label="${esc(n)} kişisini kaldır">×</button></span>`).join('')}</div>
+ <div class="padd"><input id="f_pnew" list="f_pl" placeholder="Kişi adı, örn. Dilek Özden" autocomplete="off"><datalist id="f_pl">${allPeople().map(n=>`<option value="${esc(n)}">`).join('')}</datalist><button type="button" class="ghost" data-act="padd">+ İlgili kişi ekle</button></div>
+ <div class="dbtn">${isNew?'':`<button type="button" class="ghost danger" data-act="sdel">${confirmStep===s.id?'Emin misin? Sil':'Adımı sil'}</button>`}<span></span><button type="button" class="ghost" data-act="dclose">Vazgeç</button><button type="submit" class="go">Kaydet</button></div></form></div>`}
+const mbar=m=>{if(editMode)return ebar();const n=m&&nxt(m);if(!n)return'';return `<div class="mbar"><div class="mt">${esc(label(m.id))} · sıradaki adım<b>${esc(tt(n,m))}</b></div><button class="go" data-act="tick" data-s="${n.id}">${n.w?'Geldi':'Tamamlandı'}</button></div>`};
+const GRIP='<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>';
+const own=()=>{if(!Array.isArray(state.steps)||!state.steps.length)state.steps=DEFAULT.map(o=>({...o}));return state.steps};
+const strip=o=>({id:o.id,g:o.g,t:o.t,p:o.p,h:o.h||'',w:!!o.w,ms:o.ms||'',lv:o.lv|0,pp:ppl(o).slice()});
+const placeInGroup=(list,o)=>{let k=-1;list.forEach((x,i)=>{if(x.g<=o.g)k=i});list.splice(k+1,0,o)};
 function render(){pickCur();const m=state.months.find(x=>x.id===cur);
  const op=open(),cl=closed();
  const cg=m&&!nxt(m)?`<div class="congrats" role="status"><b>Tebrikler!</b> ${esc(label(m.id))} aylık raporu tamamlandı.</div>`:'';
@@ -285,18 +375,31 @@ function render(){pickCur();const m=state.months.find(x=>x.id===cur);
  ${cl.length?`<div class="lbl">BİTEN AYLAR</div><div class="arch">${cl.map(x=>`<button class="${x.id===cur?'on':''}" data-act="sel" data-id="${esc(x.id)}">${esc(label(x.id))}</button>`).join('')}</div>`:''}</div></header>
  <main class="wrap"> ${m?nowPanel(m)+phases(m)+`<section class="card phase"><div class="ph"><h3>Notlar</h3><span>${esc(label(m.id))}</span></div>
  <p class="note-s">Kime ne zaman teslim ettin, kimden imza bekliyorsun…</p><textarea id="note" style="margin-top:8px">${esc(m.note||'')}</textarea></section>
- <div class="foot"><span class="note-s">Bir adımı geri almak için kutusuna tekrar dokun.</span><button class="ghost danger" data-act="del" data-id="${esc(m.id)}">${confirmDel===m.id?'Emin misin? '+esc(label(m.id))+' silinsin':esc(label(m.id))+' kaydını sil'}</button></div>`:'<p>Başlamak için bir ay ekle.</p>'}</main>`+mbar(m)+cg;
- setSync(syncText,syncCls)}
+ <div class="foot"><span class="note-s">Bir adımı geri almak için kutusuna tekrar dokun.</span><button class="ghost danger" data-act="del" data-id="${esc(m.id)}">${confirmDel===m.id?'Emin misin? '+esc(label(m.id))+' silinsin':esc(label(m.id))+' kaydını sil'}</button></div>`:'<p>Başlamak için bir ay ekle.</p>'}</main>`+mbar(m)+dialog(m)+cg;
+ setSync(syncText,syncCls);uiSave()}
 let syncText='Hazır',syncCls='';
 function setSync(t,c){syncText=t;syncCls=c||'';const e=document.getElementById('sync');if(e){e.textContent=t;e.className=syncCls}}
 function buildDoc(){const head=[...document.head.querySelectorAll('[data-own]')].map(e=>e.outerHTML).join('\n');
  const json=JSON.stringify(state).replace(/</g,'\\u003c');
  return '<!DOCTYPE html>\n<html lang="tr">\n<head>\n'+head+'\n</head>\n<body>\n<div id="app"></div>\n<script data-own type="application/json" id="state">'+json+'<\/script>\n'+document.getElementById('appjs').outerHTML+'\n</body>\n</html>'}
-async function push(){timer=null;try{await art.publish(buildDoc());setSync('Kaydedildi')}catch(e){const c=String((e&&(e.code||e.message))||e);
+async function push(){timer=null;if(dlg||drag||(document.activeElement&&document.activeElement.id==='note')){timer=setTimeout(push,1500);return}uiSave();try{await art.publish(buildDoc());setSync('Kaydedildi')}catch(e){const c=String((e&&(e.code||e.message))||e);
  if(/not_granted|not_writer/.test(c))setSync('Salt okunur — değişiklik kaydedilmez','bad');else if(!/conflict/.test(c))setSync('Kaydedilemedi, tekrar dene','bad')}}
 function save(){state.updatedAt=Date.now();try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
  if(art){setSync('Kaydediliyor…','busy');clearTimeout(timer);timer=setTimeout(push,1500)}else setSync('Bu cihazda kayıtlı')}
-app.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;const m=state.months.find(x=>x.id===cur);
+app.addEventListener('click',e=>{if(Date.now()<noClickUntil){e.preventDefault();e.stopPropagation();return}const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;const m=state.months.find(x=>x.id===cur);
+ if(a==='padd'){addPerson();return}
+ if(a==='prm'){b.closest('.chip').remove();return}
+ if(a==='dclose'){if(b.classList.contains('dlgbg')&&e.target!==b)return;dlg=null;confirmStep=null;render();return}
+ if(a==='emode'){editMode=true;confirmReset=false;render();return}
+ if(a==='edone'){editMode=false;dlg=null;confirmReset=false;chosen.clear();confirmBulk=false;render();return}
+ if(a==='ssel'){const id=b.dataset.s;chosen.has(id)?chosen.delete(id):chosen.add(id);confirmBulk=false;render();return}
+ if(a==='bclear'){chosen.clear();confirmBulk=false;render();return}
+ if(a==='bmove'){const g=+(document.getElementById('bulkg')||{}).value||0;const list=own().map(strip);const picked=list.filter(x=>chosen.has(x.id)).map(x=>({...x,g}));const rest=list.filter(x=>!chosen.has(x.id));picked.forEach(o=>placeInGroup(rest,o));state.steps=rest;chosen.clear();confirmBulk=false;syncSteps();save();render();return}
+ if(a==='bdel'){if(confirmBulk){state.steps=own().filter(x=>!chosen.has(x.id));chosen.clear();confirmBulk=false;syncSteps();save();render()}else{confirmBulk=true;render()}return}
+ if(a==='sedit'){dlg=b.dataset.s;confirmStep=null;render();const f=document.getElementById('f_t');if(f)f.focus();return}
+ if(a==='sadd'){dlg='new';confirmStep=null;render();const f=document.getElementById('f_t');if(f)f.focus();return}
+ if(a==='sdel'){if(confirmStep===dlg){state.steps=own().filter(x=>x.id!==dlg);dlg=null;confirmStep=null;syncSteps();save();render()}else{confirmStep=dlg;render()}return}
+ if(a==='sreset'){if(confirmReset){delete state.steps;chosen.clear();confirmReset=false;syncSteps();save();render()}else{confirmReset=true;render()}return}
  if(a!=='del')confirmDel=null;
  if(a==='ph'){const el=document.getElementById('faz-'+(+b.dataset.i+1));if(el)el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});return}
  if(a==='sel'){cur=b.dataset.id;curPh=null;try{localStorage.setItem(KEY+'-cur',cur)}catch(e){}render();return}
@@ -308,16 +411,58 @@ app.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)re
   try{navigator.clipboard.writeText(ta.value).then(done,()=>{ta.select();b.textContent='Seçildi, kopyala'})}catch(err){ta.select();b.textContent='Seçildi, kopyala'}return}
  if(!m)return;
  if(a==='tick'){const id=b.dataset.s;const st=S.find(x=>x.id===id);const ss=stepState(m,st);if(ss.locked||(m.done[id]&&!ss.undo))return;if(m.done[id])delete m.done[id];else m.done[id]=iso(new Date());save();render();return}
- if(a==='upto'){const i=S.findIndex(s=>s.id===b.dataset.s);S.slice(0,i+1).forEach(s=>{if(!m.done[s.id])m.done[s.id]=iso(new Date())});save();render();return}
+ if(a==='upto'){const i=S.findIndex(s=>s.id===b.dataset.s);S.slice(0,i+1).forEach(s=>{if(!s.kids&&!m.done[s.id])m.done[s.id]=iso(new Date())});save();render();return}
  if(a==='del'){if(confirmDel===m.id){state.months=state.months.filter(x=>x.id!==m.id);confirmDel=null;cur=null;save()}else confirmDel=m.id;render()}});
 app.addEventListener('input',e=>{const m=state.months.find(x=>x.id===cur);if(!m)return;
  if(e.target.id==='note'){m.note=e.target.value;save()}});
 app.addEventListener('change',e=>{const m=state.months.find(x=>x.id===cur);if(!m)return;
  if(e.target.id==='due'){m.due=e.target.value;save();render()}});
+app.addEventListener('submit',e=>{if(e.target.id!=='sform')return;e.preventDefault();
+ const v=id=>document.getElementById(id);const t=v('f_t').value.trim();if(!t)return;
+ const o={t,h:v('f_h').value.trim(),p:v('f_p').value,g:+v('f_g').value,w:v('f_w').checked,lv:+v('f_lv').value,pp:[...document.querySelectorAll('#f_pp .chip')].map(c=>c.dataset.name)};
+ const list=own().map(strip);
+ if(dlg==='new'){placeInGroup(list,{id:'u'+Date.now().toString(36),ms:'',...o})}
+ else{const i=list.findIndex(x=>x.id===dlg);if(i<0)return;const old=list[i];const nw={...old,...o};
+  if(nw.g!==old.g){list.splice(i,1);placeInGroup(list,nw)}else list[i]=nw}
+ state.steps=list;dlg=null;confirmStep=null;syncSteps();save();render()});
+function addPerson(){const i=document.getElementById('f_pnew');const box=document.getElementById('f_pp');if(!i||!box)return;const n=i.value.trim().replace(/\s+/g,' ');if(!n)return;
+ if(![...box.querySelectorAll('.chip')].some(c=>c.dataset.name.toLocaleLowerCase('tr')===n.toLocaleLowerCase('tr'))){const w=document.createElement('span');w.className='pp chip';w.dataset.name=n;w.innerHTML=avatar(n)+'<button type="button" class="px" data-act="prm">×</button>';w.querySelector('.px').setAttribute('aria-label',n+' kişisini kaldır');box.appendChild(w)}
+ i.value='';i.focus()}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&dlg){dlg=null;render();return}if(e.key==='Enter'&&e.target&&e.target.id==='f_pnew'){e.preventDefault();addPerson()}});
+const enterEdit=()=>{if(editMode)return;editMode=true;try{navigator.vibrate&&navigator.vibrate(15)}catch(_){}render()};
+app.addEventListener('dblclick',e=>{const r=e.target.closest('.row');if(!r||editMode||e.target.closest('textarea,input,a,.msg,.fol'))return;e.preventDefault();noClickUntil=Date.now()+300;enterEdit()});
+let lp=null;
+app.addEventListener('pointerdown',e=>{if(editMode||e.pointerType==='mouse')return;const r=e.target.closest('.row');if(!r||e.target.closest('textarea,input,a,.msg,.fol'))return;
+ const x=e.clientX,y=e.clientY;lp={x,y,t:setTimeout(()=>{lp=null;noClickUntil=Date.now()+700;enterEdit()},550)}});
+const lpCancel=()=>{if(lp){clearTimeout(lp.t);lp=null}};
+app.addEventListener('pointermove',e=>{if(lp&&Math.hypot(e.clientX-lp.x,e.clientY-lp.y)>8)lpCancel()});
+app.addEventListener('pointerup',lpCancel);app.addEventListener('pointercancel',lpCancel);
+app.addEventListener('contextmenu',e=>{if(e.target.closest('.row')&&!e.target.closest('textarea,input'))e.preventDefault()});
+let drag=null;
+app.addEventListener('pointerdown',e=>{if(!editMode)return;const h=e.target.closest('.hd');if(!h)return;const row=h.closest('.row');if(!row)return;e.preventDefault();
+ try{h.setPointerCapture(e.pointerId)}catch(_){}
+ const multi=chosen.has(row.dataset.sid)&&chosen.size>1;const it0=S.find(x=>x.id===row.dataset.sid);const blk=multi?[]:desc(it0).map(x=>x.id);blk.forEach(id=>{const r=app.querySelector(`.row[data-sid="${id}"]`);if(r)r.classList.add('carry')});const dl=document.createElement('div');dl.id='dropline';dl.innerHTML='<span></span>';document.body.appendChild(dl);
+ drag={row,h,id:row.dataset.sid,multi,blk,lv0:it0.lv,lv:it0.lv,x0:e.clientX,x:e.clientX,dl,y0:e.clientY,s0:scrollY,y:e.clientY,tgt:null,after:false,raf:0};row.classList.add('drag');if(multi){row.dataset.n=chosen.size+' adım';app.querySelectorAll('.row.pick').forEach(r=>{if(r!==row)r.classList.add('carry')})}document.body.classList.add('dragging');
+ const loop=()=>{if(!drag)return;const y=drag.y;if(y<90)scrollBy(0,-14);else if(y>innerHeight-110)scrollBy(0,14);dragMove();drag.raf=requestAnimationFrame(loop)};drag.raf=requestAnimationFrame(loop)});
+function dragMove(){const d=drag;d.row.style.transform=`translateY(${d.y-d.y0+(scrollY-d.s0)}px)`;
+ let best=null,bd=1e9;for(const r of app.querySelectorAll('.row[data-sid]')){if(r===d.row||(d.multi&&chosen.has(r.dataset.sid))||d.blk.includes(r.dataset.sid))continue;const b=r.getBoundingClientRect();const c=(b.top+b.bottom)/2;const dist=Math.abs(d.y-c);if(dist<bd){bd=dist;best={r,after:d.y>c}}}
+ if(!best){d.dl.style.display='none';return}d.tgt=best.r.dataset.sid;d.after=best.after;
+ const skip=new Set([d.id,...d.blk,...(d.multi?[...chosen]:[])]);const rest=S.filter(x=>!skip.has(x.id));const ti=rest.findIndex(x=>x.id===d.tgt);const prev=d.after?rest[ti]:rest[ti-1];
+ const maxLv=prev?Math.min(2,prev.lv+1):0;const stepW=innerWidth<600?18:28;const want=d.lv0+Math.round((d.x-d.x0)/(stepW*1.3));d.lv=Math.max(0,Math.min(maxLv,want));
+ const b=best.r.getBoundingClientRect();const card=best.r.closest('.card');const base=(card?card.getBoundingClientRect().left:b.left)+(innerWidth<600?16:24);const left=base+d.lv*stepW;
+ Object.assign(d.dl.style,{display:'block',top:(d.after?b.bottom:b.top)-1+'px',left:left+'px',width:Math.max(40,b.right-left)+'px'});d.dl.querySelector('span').textContent=LVN[d.lv]}
+app.addEventListener('pointermove',e=>{if(drag){drag.y=e.clientY;drag.x=e.clientX}});
+const dragEnd=()=>{if(!drag)return;const d=drag;drag=null;cancelAnimationFrame(d.raf);d.dl.remove();document.body.classList.remove('dragging');noClickUntil=Date.now()+250;
+ if(d.multi&&d.tgt&&!chosen.has(d.tgt)){const list=own().map(strip);const picked=list.filter(x=>chosen.has(x.id));const rest=list.filter(x=>!chosen.has(x.id));const j=rest.findIndex(x=>x.id===d.tgt);const g=rest[j].g;picked.forEach(x=>{x.g=g;x.lv=d.lv});rest.splice(d.after?j+1:j,0,...picked);state.steps=rest;chosen.clear();syncSteps();save()}
+ else if(!d.multi&&d.tgt&&d.tgt!==d.id){const list=own().map(strip);const ids=new Set([d.id,...d.blk]);const block=list.filter(x=>ids.has(x.id));const rest=list.filter(x=>!ids.has(x.id));const j=rest.findIndex(x=>x.id===d.tgt);const g=rest[j].g;const dl=d.lv-d.lv0;block.forEach(x=>{x.g=g;x.lv=Math.max(0,Math.min(2,x.lv+dl))});rest.splice(d.after?j+1:j,0,...block);state.steps=rest;syncSteps();save()}
+ render()};
+app.addEventListener('pointerup',dragEnd);app.addEventListener('pointercancel',dragEnd);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&timer&&art){clearTimeout(timer);push()}});
+try{const u=JSON.parse(sessionStorage.getItem(UIK)||'null');if(u){editMode=!!u.e;(u.c||[]).forEach(x=>chosen.add(x));if(Date.now()-u.t<120000)restoreY=u.y}}catch(_){}
 render();
+if(restoreY!=null)requestAnimationFrame(()=>scrollTo(0,restoreY));
 (async()=>{try{if(window.claude&&typeof window.claude.use==='function')art=await window.claude.use('artifact')}catch(e){art=null}
- if(!art){try{const l=JSON.parse(localStorage.getItem(KEY)||'null');if(l&&l.months&&l.updatedAt>(state.updatedAt||0)){state=l;migrate();render()}}catch(e){}
+ if(!art){try{const l=JSON.parse(localStorage.getItem(KEY)||'null');if(l&&l.months&&l.updatedAt>(state.updatedAt||0)){state=l;migrate();syncSteps();render()}}catch(e){}
   setSync('Bu cihazda kayıtlı')}else setSync('Telefon ve bilgisayarda eşit')})();
 }
 </script>
